@@ -3,34 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>ሀዲስ App</title>
+    <title>የሀዲስ ስብስብ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; direction: rtl; }
+        header { background: #2c3e50; color: white; padding: 20px; text-align: center; sticky: top; position: sticky; top: 0; z-index: 100; }
+        .search-box { padding: 10px; width: 80%; border-radius: 25px; border: none; margin-top: 10px; font-size: 16px; text-align: center; }
+        .container { padding: 15px; }
+        .hadith-card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-right: 5px solid #27ae60; }
+        .hadith-card h3 { color: #27ae60; margin-top: 0; }
+        .play-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; transition: 0.3s; }
+        .play-btn:hover { background: #2ecc71; }
+        .play-btn i { margin-left: 8px; }
+    </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="header-controls">
-            <button id="playBtn" class="control-btn play">▶</button>
-            <button id="pauseBtn" class="control-btn pause">⏸</button>
-            <button class="control-btn exit">Exit</button>
-        </div>
+<header>
+    <h2>የሀዲስ ቤተ-መጽሐፍት</h2>
+    <input type="text" id="searchInput" class="search-box" placeholder="ሀዲስ እዚህ ይፈልጉ..." onkeyup="searchHadith()">
+</header>
 
-        <div class="progress-section">
-            <input type="range" id="progressBar" value="0">
-            <div class="time-info">
-                <span id="durationTime">00:00</span>
-                <span id="currentTime">0:00</span>
-            </div>
-        </div>
-
-        <div class="content-area">
-            <h2 class="title">አምደቱል አህካም ክፍል 02</h2>
-            <div class="arabic-text">
-                عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ: أَنَّ رَسُولَ اللَّهِ ﷺ قَالَ: «إِذَا تَوَضَّأَ أَحَدُكُمْ فَلْيَجْعَلْ فِي أَنْفِهِ مَاءً ثُمَّ لَيَنْتَثِرْ...»
-            </div>
-        </div>
+<div class="container" id="hadithContainer">
+    <div class="hadith-card">
+        <h3>ሀዲስ 1</h3>
+        <p>የሀዲሱ ይዘት እና ትርጉም እዚህ ጋር ይገባል...</p>
+        <a href="https://t.me/AbraribnAwal/8334" target="_blank" class="play-btn">
+            ድምፁን አዳምጥ <i class="fas fa-play"></i>
+        </a>
     </div>
 
-    <script src="script.js"></script>
+    <div class="hadith-card">
+        <h3>ሀዲስ 2</h3>
+        <p>የሀዲሱ ይዘት እና ትርጉም እዚህ ጋር ይገባል...</p>
+        <a href="https://t.me/AbraribnAwal/8333" target="_blank" class="play-btn">
+            ድምፁን አዳምጥ <i class="fas fa-play"></i>
+        </a>
+    </div>
+
+    <div class="hadith-card">
+        <h3>ሀዲስ 3</h3>
+        <p>የሀዲሱ ይዘት እና ትርጉም እዚህ ጋር ይገባል...</p>
+        <a href="https://t.me/AbraribnAwal/8332" target="_blank" class="play-btn">
+            ድምፁን አዳምጥ <i class="fas fa-play"></i>
+        </a>
+    </div>
+</div>
+
+<script>
+    function searchHadith() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('hadith-card');
+        
+        for (let i = 0; i < cards.length; i++) {
+            let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+            if (title.includes(input)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
+
