@@ -3,93 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ኡምደቱል አህካም ማጫወቻ</title>
+    <title>ኡምደቱል አህካም</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #fff; margin: 0; padding: 0; direction: rtl; }
-        .header-tools { display: flex; justify-content: space-around; padding: 10px; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
-        .tool-btn { width: 60px; height: 60px; cursor: pointer; }
-        
-        .info-bar { display: flex; justify-content: space-between; padding: 10px 20px; color: #8e44ad; font-weight: bold; border-bottom: 1px solid #eee; }
-        
-        .hadith-container { padding: 15px; }
-        .hadith-card { 
-            background: #fff; margin-bottom: 20px; padding: 15px; 
-            border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .hadith-arabic { font-size: 20px; line-height: 1.8; color: #333; text-align: right; margin-bottom: 15px; }
-        .hadith-number { color: #e91e63; font-weight: bold; font-size: 22px; }
-        
-        .play-btn { 
-            background: #075e54; color: white; border: none; padding: 10px 20px; 
-            border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; direction: rtl; }
+        .header { display: flex; justify-content: space-around; padding: 15px; background: #fff; border-bottom: 2px solid #075e54; position: sticky; top: 0; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .play-main { background: #075e54; color: white; }
+        .pause-main { background: #e91e63; color: white; }
+        .info-bar { display: flex; justify-content: space-between; padding: 10px 20px; background: #fff; color: #8e44ad; font-weight: bold; }
+        .hadith-card { background: white; margin: 15px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .hadith-text { font-size: 20px; line-height: 1.8; text-align: right; margin-bottom: 15px; }
+        .play-item { background: #128c7e; color: white; width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; }
         audio { display: none; }
     </style>
 </head>
 <body>
 
-<div class="header-tools">
-    <img src="https://img.icons8.com/color/96/play-button-circled--v1.png" class="tool-btn" onclick="playCurrent()">
-    <img src="https://img.icons8.com/color/96/pause-button-circled--v1.png" class="tool-btn" onclick="pauseCurrent()">
-    <img src="https://img.icons8.com/color/96/cancel-last-digit.png" class="tool-btn" onclick="window.close()">
+<div class="header">
+    <button class="btn play-main" onclick="playCurrent()">አጫውት ▶</button>
+    <button class="btn pause-main" onclick="pauseCurrent()">አቁም ⏸</button>
 </div>
 
 <div class="info-bar">
-    <span>ክፍል 01</span>
     <span>ኡምደቱል አህካም</span>
+    <span>ክፍል 01</span>
 </div>
 
-<div class="hadith-container">
-    <div class="hadith-card">
-        <div class="hadith-arabic">
-            <span class="hadith-number"> 1 - </span> 
-            عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ...»
-        </div>
-        <audio id="audio1">
-            <source src="https://archive.org/download/Voice003_201506/Voice%2003.mp3" type="audio/mpeg">
-        </audio>
-        <button class="play-btn" onclick="playTarget('audio1')">ይህን ሀዲስ አጫውት</button>
-    </div>
+<div class="hadith-card">
+    <div class="hadith-text"><span style="color:red">1 -</span> عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ...»</div>
+    <audio id="audio1"><source src="https://archive.org/download/Voice003_201506/Voice%2003.mp3" type="audio/mpeg"></audio>
+    <button class="play-item" onclick="playTarget('audio1')">ይህን ሀዲስ አጫውት</button>
+</div>
 
-    <div class="hadith-card">
-        <div class="hadith-arabic">
-            <span class="hadith-number"> 2 - </span> 
-            عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ ﷺ: «لا يَقْبَلُ اللَّهُ صَلاةَ أَحَدِكُمْ إذَا أَحْدَثَ حَتَّى يَتَوَضَّأَ»
-        </div>
-        <audio id="audio2">
-            <source src="https://archive.org/download/Voice003_201506/Voice%2003.mp3" type="audio/mpeg">
-        </audio>
-        <button class="play-btn" onclick="playTarget('audio2')">ይህን ሀዲስ አጫውት</button>
-    </div>
+<div class="hadith-card">
+    <div class="hadith-text"><span style="color:red">2 -</span> عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ ﷺ: «لا يَقْبَلُ اللَّهُ صَلاةَ أَحَدِكُمْ إذَا أَحْدَثَ حَتَّى يَتَوَضَّأَ»</div>
+    <audio id="audio2"><source src="https://archive.org/download/Voice003_201506/Voice%2003.mp3" type="audio/mpeg"></audio>
+    <button class="play-item" onclick="playTarget('audio2')">ይህን ሀዲስ አጫውት</button>
 </div>
 
 <script>
     let currentAudio = null;
-
     function playTarget(id) {
-        // ሌላ ድምፅ እየተጫወተ ከሆነ መጀመሪያ ያቁመው
-        if (currentAudio) {
-            currentAudio.pause();
-        }
-        // አዲሱን ድምፅ ይጫወት
+        if (currentAudio) { currentAudio.pause(); }
         currentAudio = document.getElementById(id);
-        currentAudio.play().catch(e => alert("ኢንተርኔት መኖሩን ያረጋግጡ!"));
+        currentAudio.play().catch(e => alert("ድምፁን ማጫወት አልተቻለም!"));
     }
-
-    function playCurrent() {
-        if (currentAudio) {
-            currentAudio.play();
-        } else {
-            // ምንም ድምፅ ካልተመረጠ የመጀመሪያውን ይጫወት
-            playTarget('audio1');
-        }
-    }
-
-    function pauseCurrent() {
-        if (currentAudio) {
-            currentAudio.pause();
-        }
-    }
+    function playCurrent() { if (currentAudio) { currentAudio.play(); } else { playTarget('audio1'); } }
+    function pauseCurrent() { if (currentAudio) { currentAudio.pause(); } }
 </script>
 
 </body>
