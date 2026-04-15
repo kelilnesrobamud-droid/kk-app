@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ሀዲስ ማጫወቻ</title>
+    <title>ኡምደቱል አህካም ማጫወቻ</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #fff; margin: 0; padding: 0; direction: rtl; }
-        .header-tools { display: flex; justify-content: space-around; padding: 10px; background: #fff; border-bottom: 2px solid #ddd; position: sticky; top: 0; }
-        .tool-btn { width: 80px; height: 80px; cursor: pointer; }
+        .header-tools { display: flex; justify-content: space-around; padding: 10px; background: #fff; border-bottom: 1px solid #ddd; position: sticky; top: 0; z-index: 100; }
+        .tool-btn { width: 60px; height: 60px; cursor: pointer; }
         
-        .progress-container { width: 90%; margin: 15px auto; height: 8px; background: #fffde1; border-radius: 5px; position: relative; }
-        .progress-bar { width: 30%; height: 100%; background: #00aaff; border-radius: 5px; position: relative; }
-        .progress-dot { width: 15px; height: 15px; background: #00aaff; border-radius: 50%; position: absolute; right: -5px; top: -4px; }
-
-        .info-bar { display: flex; justify-content: space-between; padding: 5px 20px; color: #8e44ad; font-weight: bold; font-size: 18px; }
-
-        .hadith-scroll { padding: 15px; border-top: 2px solid #555; margin-top: 10px; }
-        .hadith-card { margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .info-bar { display: flex; justify-content: space-between; padding: 10px 20px; color: #8e44ad; font-weight: bold; border-bottom: 1px solid #eee; }
         
-        .hadith-arabic { font-size: 24px; line-height: 1.8; color: #333; text-align: right; margin-bottom: 15px; font-weight: 500; }
-        .hadith-number { color: #e91e63; font-weight: bold; font-size: 26px; }
-
-        audio { display: none; } /* ኦዲዮው በቁልፎቹ እንዲታዘዝ */
+        .hadith-container { padding: 15px; }
+        .hadith-card { 
+            background: #fff; margin-bottom: 20px; padding: 15px; 
+            border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .hadith-arabic { font-size: 20px; line-height: 1.8; color: #333; text-align: right; margin-bottom: 15px; }
+        .hadith-number { color: #e91e63; font-weight: bold; font-size: 22px; }
+        
+        .play-btn { 
+            background: #075e54; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px;
+        }
+        audio { display: none; }
     </style>
 </head>
 <body>
@@ -32,40 +34,32 @@
     <img src="https://img.icons8.com/color/96/cancel-last-digit.png" class="tool-btn" onclick="window.close()">
 </div>
 
-<div class="progress-container">
-    <div class="progress-bar"><div class="progress-dot"></div></div>
-</div>
 <div class="info-bar">
-    <span>0:19</span>
-    <span>42:09</span>
-    <span>ኡምደቱል አህካም ክፍል 02</span>
+    <span>ክፍል 01</span>
+    <span>ኡምደቱል አህካም</span>
 </div>
 
-<div class="container">
-    <div class="hadith-scroll">
-
-        <div class="hadith-card" id="hadith8">
-            <div class="hadith-arabic">
-                <span class="hadith-number"> ٨ - </span> 
-                عَنْ عَمْرِو بْنِ يَحْيَى الْمَازِنِيِّ، عَنْ أَبِيهِ قَالَ: شَهِدْتُ عَمْرَو بْنَ أَبِي حَسَنٍ سَأَلَ عَبْدَ اللَّهِ بْنَ زَيْدٍ عَنْ وُضُوءِ النَّبِيِّ ﷺ فَدَعَا بِتَوْرٍ مِنْ مَاءٍ، فَتَوَضَّأَ لَهُمْ...
-            </div>
-            <audio id="audio8">
-                <source src="https://t.me/AbraribnAwal/8334?embed=1" type="audio/mpeg">
-            </audio>
-            <button onclick="playTarget('audio8')" style="padding: 10px; background: #075e54; color: white; border: none; border-radius: 5px;">ይህንን ሀዲስ አጫውት</button>
+<div class="hadith-container">
+    <div class="hadith-card">
+        <div class="hadith-arabic">
+            <span class="hadith-number"> 1 - </span> 
+            عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ...»
         </div>
+        <audio id="audio1">
+            <source src="https://archive.org/download/Voice003_201506/Voice%20003.mp3" type="audio/mpeg">
+        </audio>
+        <button class="play-btn" onclick="playTarget('audio1')">ይህን ሀዲስ አጫውት</button>
+    </div>
 
-        <div class="hadith-card" id="hadith7">
-            <div class="hadith-arabic">
-                <span class="hadith-number"> ٧ - </span> 
-                عَنْ حُمْرَانَ مَوْلَى عُثْمَانَ بْنِ عَفَّانَ أَنَّهُ رَأَى عُثْمَانَ دَعَا بِوُضُوءٍ، فَأَفْرَغَ عَلَى يَدَيْهِ مِنْ إِنَائِهِ، فَغَسَلَهُمَا ثَلَاثَ مَرَّاتٍ...
-            </div>
-            <audio id="audio7">
-                <source src="https://t.me/AbraribnAwal/8333?embed=1" type="audio/mpeg">
-            </audio>
-            <button onclick="playTarget('audio7')" style="padding: 10px; background: #075e54; color: white; border: none; border-radius: 5px;">ይህንን ሀዲስ አጫውት</button>
+    <div class="hadith-card">
+        <div class="hadith-arabic">
+            <span class="hadith-number"> 2 - </span> 
+            عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ ﷺ: «لا يَقْبَلُ اللَّهُ صَلاةَ أَحَدِكُمْ إذَا أَحْدَثَ حَتَّى يَتَوَضَّأَ»
         </div>
-
+        <audio id="audio2">
+            <source src="https://archive.org/download/Voice003_201506/Voice%20003.mp3" type="audio/mpeg">
+        </audio>
+        <button class="play-btn" onclick="playTarget('audio2')">ይህን ሀዲስ አጫውት</button>
     </div>
 </div>
 
@@ -73,21 +67,30 @@
     let currentAudio = null;
 
     function playTarget(id) {
-        if(currentAudio) currentAudio.pause();
+        // ሌላ ድምፅ እየተጫወተ ከሆነ መጀመሪያ ያቁመው
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+        // አዲሱን ድምፅ ይጫወት
         currentAudio = document.getElementById(id);
-        currentAudio.play();
+        currentAudio.play().catch(e => alert("ኢንተርኔት መኖሩን ያረጋግጡ!"));
     }
 
     function playCurrent() {
-        if(currentAudio) currentAudio.play();
+        if (currentAudio) {
+            currentAudio.play();
+        } else {
+            // ምንም ድምፅ ካልተመረጠ የመጀመሪያውን ይጫወት
+            playTarget('audio1');
+        }
     }
 
     function pauseCurrent() {
-        if(currentAudio) currentAudio.pause();
+        if (currentAudio) {
+            currentAudio.pause();
+        }
     }
 </script>
 
 </body>
 </html>
- 
-
