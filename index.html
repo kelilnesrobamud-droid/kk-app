@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>የሀዲስ መማሪያ</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { width: 100%; max-width: 400px; }
+        .hadith-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; border-top: 5px solid #2ecc71; }
+        .title { font-weight: bold; color: #27ae60; margin-bottom: 10px; display: block; }
+        button { background-color: #2ecc71; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; width: 100%; }
+        .playing { background-color: #e74c3c !important; }
+    </style>
+</head>
+<body>
+
+    <h2>የሀዲስ መማሪያ</h2>
+
+    <div class="container">
+        <div class="hadith-card">
+            <span class="title">ሀዲስ 1</span>
+            <audio id="audio1">
+                <source src="1.mp3" type="audio/mpeg">
+            </audio>
+            <button id="btn1" onclick="playAudio('audio1', 'btn1')">አጫውት</button>
+        </div>
+
+        <div class="hadith-card">
+            <span class="title">ሀዲስ 2</span>
+            <audio id="audio2">
+                <source src="2.mp3" type="audio/mpeg">
+            </audio>
+            <button id="btn2" onclick="playAudio('audio2', 'btn2')">አጫውት</button>
+        </div>
+
+        <div class="hadith-card">
+            <span class="title">ሀዲስ 3</span>
+            <audio id="audio3">
+                <source src="3.mp3" type="audio/mpeg">
+            </audio>
+            <button id="btn3" onclick="playAudio('audio3', 'btn3')">አጫውት</button>
+        </div>
+    </div>
+
+    <script>
+        function playAudio(audioId, btnId) {
+            var audio = document.getElementById(audioId);
+            var btn = document.getElementById(btnId);
+            
+            document.querySelectorAll('audio').forEach(el => {
+                if(el.id !== audioId) { el.pause(); el.currentTime = 0; }
+            });
+            document.querySelectorAll('button').forEach(el => {
+                if(el.id !== btnId) { el.innerText = "አጫውት"; el.classList.remove('playing'); }
+            });
+
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "አቁም";
+                btn.classList.add('playing');
+            } else {
+                audio.pause();
+                btn.innerText = "አጫውት";
+                btn.classList.remove('playing');
+            }
+        }
+    </script>
+</body>
+</html>
 
