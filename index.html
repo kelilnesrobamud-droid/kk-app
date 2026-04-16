@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>የሀዲስ መማሪያ</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
         .container { width: 100%; max-width: 450px; }
-        .hadith-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border-top: 8px solid #2ecc71; }
-        .hadith-text { font-size: 19px; color: #2c3e50; margin-bottom: 20px; line-height: 1.6; direction: rtl; }
-        .title { color: #27ae60; font-weight: bold; margin-bottom: 10px; display: block; }
-        button { background-color: #2ecc71; color: white; border: none; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); transition: 0.3s; }
-        button:active { transform: scale(0.95); }
+        h1 { color: #2c3e50; margin-top: 20px; font-size: 24px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .hadith-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border-top: 8px solid #2ecc71; transition: 0.3s; }
+        .hadith-card:hover { transform: translateY(-5px); }
+        .title { color: #27ae60; font-weight: bold; margin-bottom: 10px; display: block; font-size: 20px; }
+        .hadith-text { font-size: 19px; color: #2c3e50; margin-bottom: 20px; line-height: 1.6; direction: rtl; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        button { background-color: #2ecc71; color: white; border: none; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); width: 100%; transition: 0.3s; }
+        button:active { transform: scale(0.98); }
         .playing { background-color: #e74c3c !important; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
+        .footer { margin-top: 20px; font-size: 12px; color: #95a5a6; }
     </style>
 </head>
 <body>
 
-    <h1 style="color: #2c3e50; margin-bottom: 30px;">የሀዲስ መማሪያ</h1>
+    <h1>የሀዲስ መማሪያ</h1>
 
     <div class="container">
         <div class="hadith-card">
             <span class="title">ሀዲስ 1</span>
-            <div class="hadith-text">«إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى...»</div>
-            <audio id="audio1">
-                <source src="https://docs.google.com/uc?export=download&id=1PCtZw3f08YJKcj7tv2XE2WYHFkv_lCHD" type="audio/mpeg">
+            <div class="hadith-text">«إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ...»</div>
+            <audio id="audio1" preload="none">
+                <source src="https://cf-cors-proxy-service.khalil-nesro.workers.dev/?url=https://drive.google.com/uc?export=download&id=1PCtZw3f08YJKcj7tv2XE2WYHFkv_lCHD" type="audio/mpeg">
             </audio>
             <button id="btn1" onclick="playAudio('audio1', 'btn1')">አጫውት</button>
         </div>
@@ -32,27 +35,30 @@
         <div class="hadith-card">
             <span class="title">ሀዲስ 2</span>
             <div class="hadith-text">«الدِّينُ النَّصِيحَةُ...»</div>
-            <audio id="audio2">
-                <source src="https://docs.google.com/uc?export=download&id=1UtbpNwnSsCzqWH3GzRFXQWtCQ5_bB3MD" type="audio/mpeg">
+            <audio id="audio2" preload="none">
+                <source src="https://cf-cors-proxy-service.khalil-nesro.workers.dev/?url=https://drive.google.com/uc?export=download&id=1UtbpNwnSsCzqWH3GzRFXQWtCQ5_bB3MD" type="audio/mpeg">
             </audio>
             <button id="btn2" onclick="playAudio('audio2', 'btn2')">አጫውት</button>
         </div>
 
         <div class="hadith-card">
             <span class="title">ሀዲስ 3</span>
-            <div class="hadith-text">«لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ»</div>
-            <audio id="audio3">
-                <source src="https://docs.google.com/uc?export=download&id=1XqQ3IiZZmLK8BxN2ywD9tyPDSImYE3gh" type="audio/mpeg">
+            <div class="hadith-text">«لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ...»</div>
+            <audio id="audio3" preload="none">
+                <source src="https://cf-cors-proxy-service.khalil-nesro.workers.dev/?url=https://drive.google.com/uc?export=download&id=1XqQ3IiZZmLK8BxN2ywD9tyPDSImYE3gh" type="audio/mpeg">
             </audio>
             <button id="btn3" onclick="playAudio('audio3', 'btn3')">አጫውት</button>
         </div>
     </div>
+
+    <div class="footer">Khalil Nesro Digital Learning System</div>
 
     <script>
         function playAudio(audioId, btnId) {
             var audio = document.getElementById(audioId);
             var btn = document.getElementById(btnId);
             
+            // ሌሎችን አቁም
             document.querySelectorAll('audio').forEach(el => {
                 if(el.id !== audioId) { el.pause(); el.currentTime = 0; }
             });
@@ -61,7 +67,7 @@
             });
 
             if (audio.paused) {
-                audio.play();
+                audio.play().catch(e => alert("ድምፁን መጫን አልተቻለም። እባክህ የኢንተርኔት ኮኔክሽንህን አረጋግጥ።"));
                 btn.innerText = "አቁም";
                 btn.classList.add('playing');
             } else {
