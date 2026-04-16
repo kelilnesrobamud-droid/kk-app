@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ሀዲስ መማሪያ</title>
+    <title>የሀዲስ መማሪያ</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .container { width: 100%; max-width: 400px; }
-        .hadith-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; border-left: 5px solid #2ecc71; }
-        .hadith-text { font-size: 18px; color: #333; margin-bottom: 15px; font-weight: bold; }
-        button { background-color: #2ecc71; color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { background-color: #27ae60; transform: scale(1.05); }
-        .playing { background-color: #e74c3c !important; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .container { width: 100%; max-width: 450px; }
+        .hadith-card { background: white; border-radius: 20px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border-top: 8px solid #2ecc71; }
+        .hadith-text { font-size: 19px; color: #2c3e50; margin-bottom: 20px; line-height: 1.6; direction: rtl; }
+        .title { color: #27ae60; font-weight: bold; margin-bottom: 10px; display: block; }
+        button { background-color: #2ecc71; color: white; border: none; padding: 15px 35px; border-radius: 30px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3); transition: 0.3s; }
+        button:active { transform: scale(0.95); }
+        .playing { background-color: #e74c3c !important; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3); }
     </style>
 </head>
 <body>
 
-    <h2 style="color: #2c3e50;">የሀዲስ መማሪያ</h2>
+    <h1 style="color: #2c3e50; margin-bottom: 30px;">የሀዲስ መማሪያ</h1>
 
     <div class="container">
         <div class="hadith-card">
-            <div class="hadith-text">ሀዲስ 1</div>
+            <span class="title">ሀዲስ 1</span>
+            <div class="hadith-text">«إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى...»</div>
             <audio id="audio1">
                 <source src="https://docs.google.com/uc?export=download&id=1PCtZw3f08YJKcj7tv2XE2WYHFkv_lCHD" type="audio/mpeg">
             </audio>
@@ -28,7 +30,8 @@
         </div>
 
         <div class="hadith-card">
-            <div class="hadith-text">ሀዲስ 2</div>
+            <span class="title">ሀዲስ 2</span>
+            <div class="hadith-text">«الدِّينُ النَّصِيحَةُ...»</div>
             <audio id="audio2">
                 <source src="https://docs.google.com/uc?export=download&id=1UtbpNwnSsCzqWH3GzRFXQWtCQ5_bB3MD" type="audio/mpeg">
             </audio>
@@ -36,7 +39,8 @@
         </div>
 
         <div class="hadith-card">
-            <div class="hadith-text">ሀዲስ 3</div>
+            <span class="title">ሀዲስ 3</span>
+            <div class="hadith-text">«لاَ يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ»</div>
             <audio id="audio3">
                 <source src="https://docs.google.com/uc?export=download&id=1XqQ3IiZZmLK8BxN2ywD9tyPDSImYE3gh" type="audio/mpeg">
             </audio>
@@ -49,11 +53,12 @@
             var audio = document.getElementById(audioId);
             var btn = document.getElementById(btnId);
             
-            // ሁሉንም ድምጾች መጀመሪያ አቁም
             document.querySelectorAll('audio').forEach(el => {
                 if(el.id !== audioId) { el.pause(); el.currentTime = 0; }
             });
-            document.querySelectorAll('button').forEach(el => el.classList.remove('playing'));
+            document.querySelectorAll('button').forEach(el => {
+                if(el.id !== btnId) { el.innerText = "አጫውት"; el.classList.remove('playing'); }
+            });
 
             if (audio.paused) {
                 audio.play();
