@@ -1,56 +1,23 @@
-<!DOCTYPE html>
-<html lang="am">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ኡምደቱል አህካም</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; direction: rtl; }
-        .header { display: flex; justify-content: space-around; padding: 15px; background: #fff; border-bottom: 2px solid #075e54; position: sticky; top: 0; }
-        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .play-main { background: #075e54; color: white; }
-        .pause-main { background: #e91e63; color: white; }
-        .info-bar { display: flex; justify-content: space-between; padding: 10px 20px; background: #fff; color: #8e44ad; font-weight: bold; }
-        .hadith-card { background: white; margin: 15px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .hadith-text { font-size: 20px; line-height: 1.8; text-align: right; margin-bottom: 15px; }
-        .play-item { background: #128c7e; color: white; width: 100%; padding: 12px; border: none; border-radius: 5px; font-size: 16px; }
-        audio { display: none; }
-    </style>
-</head>
-<body>
-
-<div class="header">
-    <button class="btn play-main" onclick="playCurrent()">አጫውት ▶</button>
-    <button class="btn pause-main" onclick="pauseCurrent()">አቁም ⏸</button>
-</div>
-
-<div class="info-bar">
-    <span>ኡምደቱል አህካም</span>
-    <span>ክፍል 01</span>
+<div class="hadith-card">
+    <div class="hadith-text">ሀዲስ 1</div>
+    <audio id="audio1">
+        <source src="https://docs.google.com/uc?export=download&id=1PCtZw3f08YJKcj7tv2XE2WYHFkv_lCHD" type="audio/mpeg">
+    </audio>
+    <button class="play-item" onclick="playTarget('audio1')">አጫውት</button>
 </div>
 
 <div class="hadith-card">
-    <div class="hadith-text"><span style="color:red">1 -</span> عَنْ عُمَرَ بْنِ الْخَطَّابِ رَضِيَ اللَّهُ عَنْهُ قَالَ: سَمِعْتُ رَسُولَ اللَّهِ ﷺ يَقُولُ: «إنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ...»</div>
-    <audio id="audio1"><source src="https://archive.org/download/Voice003_201506/Voice%2003.mp3" type="audio/mpeg"></audio>
-    <button class="play-item" onclick="playTarget('audio1')">ይህን ሀዲስ አጫውት</button>
+    <div class="hadith-text">ሀዲስ 2</div>
+    <audio id="audio2">
+        <source src="https://docs.google.com/uc?export=download&id=1UtbpNwnSsCzqWH3GzRFXQWtCQ5_bB3MD" type="audio/mpeg">
+    </audio>
+    <button class="play-item" onclick="playTarget('audio2')">አጫውት</button>
 </div>
 
 <div class="hadith-card">
-    <div class="hadith-text"><span style="color:red">2 -</span> عَنْ أَبِي هُرَيْرَةَ رَضِيَ اللَّهُ عَنْهُ قَالَ: قَالَ رَسُولُ اللَّهِ ﷺ: «لا يَقْبَلُ اللَّهُ صَلاةَ أَحَدِكُمْ إذَا أَحْدَثَ حَتَّى يَتَوَضَّأَ»</div>
-    <audio id="audio2"><source src="https://archive.org/download/Voice003_201506/Voice%2003.mp3" type="audio/mpeg"></audio>
-    <button class="play-item" onclick="playTarget('audio2')">ይህን ሀዲስ አጫውት</button>
+    <div class="hadith-text">ሀዲስ 3</div>
+    <audio id="audio3">
+        <source src="https://docs.google.com/uc?export=download&id=1XqQ3IiZZmLK8BxN2ywD9tyPDSImYE3gh" type="audio/mpeg">
+    </audio>
+    <button class="play-item" onclick="playTarget('audio3')">አጫውት</button>
 </div>
-
-<script>
-    let currentAudio = null;
-    function playTarget(id) {
-        if (currentAudio) { currentAudio.pause(); }
-        currentAudio = document.getElementById(id);
-        currentAudio.play().catch(e => alert("ድምፁን ማጫወት አልተቻለም!"));
-    }
-    function playCurrent() { if (currentAudio) { currentAudio.play(); } else { playTarget('audio1'); } }
-    function pauseCurrent() { if (currentAudio) { currentAudio.pause(); } }
-</script>
-
-</body>
-</html>
