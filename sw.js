@@ -1,28 +1,23 @@
-const cacheName = 'kelil-app-v2';
-const assets = [
-  './',
-  './index.html',
-  './style.css',
-  './script.js',
-  './icon.png',
-  './hadith.mp3'
+const CACHE_NAME = 'ibn-abbas-snake-v1';
+const ASSETS = [
+    './',
+    './index.html', // የ HTML ፋይሉ ስም index.html ከሆነ
 ];
 
-// አፑ ሲጫን ፋይሎቹን ስልክ ውስጥ ይቆልፋል
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(cacheName).then(cache => {
-      console.log('Caching assets...');
-      return cache.addAll(assets);
-    })
-  );
+// ፋይሎችን ሚሞሪ ውስጥ መጫን
+self.addEventListener('install', (e) => {
+    e.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS);
+        })
+    );
 });
 
-// ያለ ዳታ ሲከፈት ከስልኩ ትውስታ ያነባል
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(res => {
-      return res || fetch(e.request);
-    })
-  );
+// ያለ ኢንተርኔት ሲከፈት ከሚሞሪው አውጥቶ ማሳየት
+self.addEventListener('fetch', (e) => {
+    e.respondWith(
+        caches.match(e.request).then((response) => {
+            return response || fetch(e.request);
+        })
+    );
 });
