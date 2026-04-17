@@ -2,64 +2,315 @@
 <html lang="am">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelil App</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IBN ABBAS SNAKE PRO</title>
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#2ecc71">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <style>
+        body {
+            margin: 0; padding: 0; display: flex; flex-direction: column;
+            align-items: center; background: #050505; color: #00ffcc; 
+            font-family: 'Segoe UI', Arial, sans-serif; height: 100vh; overflow: hidden;
+            touch-action: none; -webkit-user-select: none; user-select: none;
+        }
+        .header { margin-top: 10px; text-align: center; width: 100%; }
+        .score-box { font-size: 24px; font-weight: bold; color: #fff; text-shadow: 0 0 8px #00ffcc; }
+        
+        .controls-row { display: flex; justify-content: center; gap: 10px; margin-top: 8px; }
+        select, .btn-small { 
+            background: #00ffcc; border: none; padding: 8px 15px; 
+            border-radius: 10px; font-weight: bold; cursor: pointer; color: #000;
+        }
+
+        #game-board { 
+            position: relative; border: 4px solid #00ffcc; 
+            background: #000; margin-top: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+        canvas { display: block; }
+
+        /* የውጤቶች ሰንጠረዥ */
+        #leaderboard-ui {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 200;
+        }
+        .score-list { width: 85%; border-collapse: collapse; margin-bottom: 20px; }
+        .score-list td { padding: 12px; border-bottom: 1px solid #00ffcc; text-align: center; font-size: 18px; }
+        .gold { color: #ffcc00; font-weight: bold; text-shadow: 0 0 5px #ffcc00; }
+
+        /* መቆጣጠሪያ ፓድ */
+        .pad-container {
+            margin: auto 0 30px 0; width: 210px; height: 210px;
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 8px;
+        }
+        .touch-btn {
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; color: #00ffcc; background: rgba(0, 255, 204, 0.1);
+            border: 2px solid #00ffcc; border-radius: 20px; -webkit-tap-highlight-color: transparent;
+        }
+        .touch-btn:active { background: rgba(0, 255, 204, 0.4); }
+        .pause-btn { color: #ffcc00; border-color: #ffcc00; }
+
+        .up { grid-column: 2; grid-row: 1; }
+        .left { grid-column: 1; grid-row: 2; }
+        .pause { grid-column: 2; grid-row: 2; font-size: 24px; }
+        .right { grid-column: 3; grid-row: 2; }
+        .down { grid-column: 2; grid-row: 3; }
+
+        #menu {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 100;
+        }
+        #menu h1 { margin-bottom: 20px; }
+        #menu button { padding: 15px 50px; font-size: 22px; background: #00ffcc; border: none; border-radius: 40px; font-weight: bold; cursor: pointer; }
+        
+        #trophy-pop { 
+            position: absolute; top: 20%; font-size: 80px; display: none; 
+            z-index: 150; animation: bounce 0.8s infinite; 
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    </style>
 </head>
 <body>
 
-    <div id="splash-screen">
-        <div class="splash-content">
-            <img src="icon.png" alt="App Icon" class="splash-logo">
-            <h1 class="splash-text">እንኳን ደህና መጡ</h1>
+    <div class="header">
+        <div class="score-box">ውጤት: <span id="score">0</span></div>
+        <div class="controls-row">
+            <select id="difficulty">
+                <option value="180">ቀላል</option>
+                <option value="110" selected>መካከለኛ</option>
+                <option value="70">ፈጣን</option>
+            </select>
+            <button class="btn-small" onclick="showLeaderboard()">ውጤቶች 🏆</button>
         </div>
     </div>
 
-    <div id="main-content" style="display: none;">
-        <header>
-            <h1>የሐዲስ ማጫወቻ</h1>
-        </header>
-        
-        <main>
-            <div class="audio-card">
-                <img src="icon.png" alt="Cover" class="cover-img">
-                <h3>ቁርአን እና ሐዲስ</h3>
-                <audio id="hadith-audio" controls>
-                    <source src="hadith.mp3" type="audio/mpeg">
-                    የእርስዎ ብሮውዘር ኦዲዮ መጫወት አይችልም።
-                </audio>
-            </div>
-        </main>
+    <div id="game-board">
+        <canvas id="snakeCanvas"></canvas>
+        <div id="trophy-pop">🏆</div>
+
+        <div id="leaderboard-ui">
+            <h2 style="color:#ffcc00;">ከፍተኛ 5 ውጤቶች</h2>
+            <table class="score-list" id="score-table"></table>
+            <button class="btn-small" onclick="closeLeaderboard()" style="padding:10px 30px;">ተመለስ</button>
+        </div>
+
+        <div id="menu">
+            <h1 id="menu-title" style="color:#00ffcc; text-align:center;">ኢብን አባስ<br><span style="font-size:24px;">ابن عباس</span></h1>
+            <button onclick="startGame()">ጀምር</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
-    
-    <script>
-        // 1. Service Worker መመዝገብ
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Offline support ready!'))
-                    .catch(err => console.error('SW registration failed:', err));
+    <div class="pad-container">
+        <div class="touch-btn up" id="ctrl-up">▲</div>
+        <div class="touch-btn left" id="ctrl-left">◀</div>
+        <div class="touch-btn pause" id="ctrl-pause">⏸</div>
+        <div class="touch-btn right" id="ctrl-right">▶</div>
+        <div class="touch-btn down" id="ctrl-down">▼</div>
+    </div>
+
+<script>
+    /* 1. ጨዋታው ያለ ኢንተርኔት እንዲሰራ (Offline Capability) */
+    if ('serviceWorker' in navigator) {
+        const swCode = `
+            const CACHE_NAME = 'ibn-abbas-v2';
+            self.addEventListener('install', e => {
+                e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
             });
+            self.addEventListener('fetch', e => {
+                e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+            });
+        `;
+        const blob = new Blob([swCode], {type: 'text/javascript'});
+        navigator.serviceWorker.register(URL.createObjectURL(blob));
+    }
+
+    /* 2. የጨዋታው ዋና ክፍል */
+    const canvas = document.getElementById("snakeCanvas");
+    const ctx = canvas.getContext("2d");
+    const scoreText = document.getElementById("score");
+    const menu = document.getElementById("menu");
+    const diffSelect = document.getElementById("difficulty");
+    const trophy = document.getElementById("trophy-pop");
+
+    const grid = 20;
+    let size = Math.min(window.innerWidth * 0.88, 350);
+    size = Math.floor(size / grid) * grid;
+    canvas.width = canvas.height = size;
+
+    let snake, food, bonusFood, dx, dy, score, interval, isPaused = false;
+    // ውጤቶችን ከስልኩ ሚሞሪ መጫን
+    let highScores = JSON.parse(localStorage.getItem("top5Scores")) || [0, 0, 0, 0, 0];
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSfx(freqs, type='sine') {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        let now = audioCtx.currentTime;
+        freqs.forEach((f, i) => osc.frequency.setValueAtTime(f, now + (i * 0.1)));
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(); osc.stop(now + 0.4);
+    }
+
+    function startGame() {
+        menu.style.display = "none";
+        trophy.style.display = "none";
+        score = 0; scoreText.innerText = score;
+        dx = grid; dy = 0; isPaused = false;
+        document.getElementById("ctrl-pause").innerText = "⏸";
+        let startPos = Math.floor((size / grid) / 2) * grid;
+        snake = [{x: startPos, y: startPos}, {x: startPos - grid, y: startPos}];
+        bonusFood = null;
+        createFood();
+        if(interval) clearInterval(interval);
+        interval = setInterval(main, parseInt(diffSelect.value));
+    }
+
+    function createFood() {
+        food = {
+            x: Math.floor(Math.random() * (size / grid)) * grid,
+            y: Math.floor(Math.random() * (size / grid)) * grid
+        };
+        // 20% እድል ለልዩ ምግብ (ቦነስ)
+        if(Math.random() < 0.2) {
+            bonusFood = {
+                x: Math.floor(Math.random() * (size / grid)) * grid,
+                y: Math.floor(Math.random() * (size / grid)) * grid,
+                timer: 60
+            };
+        }
+    }
+
+    function main() {
+        if (isPaused) return;
+        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        
+        // ግጭት መኖሩን ማረጋገጥ
+        if (head.x < 0 || head.x >= size || head.y < 0 || head.y >= size || 
+            snake.some(p => p.x === head.x && p.y === head.y)) {
+            gameOver(); return;
         }
 
-        // 2. Splash screen ቆይቶ እንዲጠፋና ዋናው ገጽ እንዲመጣ ማድረግ
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                const main = document.getElementById('main-content');
-                
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    main.style.display = 'block';
-                }, 500);
-            }, 3000); // 3 ሰከንድ ያሳያል
+        snake.unshift(head);
+
+        // ምግብ መብላት
+        if (bonusFood && head.x === bonusFood.x && head.y === bonusFood.y) {
+            score += 50; playSfx([400, 600, 800], 'square');
+            bonusFood = null;
+        } else if (head.x === food.x && head.y === food.y) {
+            score += 10; playSfx([300, 500]);
+            createFood();
+        } else {
+            snake.pop();
+        }
+
+        if(bonusFood) {
+            bonusFood.timer--;
+            if(bonusFood.timer <= 0) bonusFood = null;
+        }
+
+        scoreText.innerText = score;
+        draw();
+    }
+
+    function gameOver() {
+        clearInterval(interval);
+        checkHighScore(score);
+        menu.style.display = "flex";
+        document.getElementById("menu-title").innerHTML = "ጌም አለቀ!<br>ውጤት: " + score;
+    }
+
+    function checkHighScore(s) {
+        if (s > highScores[4] && s > 0) {
+            highScores.push(s);
+            highScores.sort((a, b) => b - a);
+            highScores = highScores.slice(0, 5);
+            localStorage.setItem("top5Scores", JSON.stringify(highScores));
+            trophy.style.display = "block";
+            playSfx([523, 659, 783, 1046], 'triangle');
+        }
+    }
+
+    function showLeaderboard() {
+        isPaused = true;
+        const table = document.getElementById("score-table");
+        table.innerHTML = highScores.map((s, i) => `
+            <tr>
+                <td class="${i===0 && s>0?'gold':''}">ደረጃ ${i+1}</td>
+                <td class="${i===0 && s>0?'gold':''}"><b>${s}</b></td>
+            </tr>
+        `).join('');
+        document.getElementById("leaderboard-ui").style.display = "flex";
+    }
+
+    function closeLeaderboard() {
+        document.getElementById("leaderboard-ui").style.display = "none";
+        if(snake && snake.length > 0) isPaused = false;
+    }
+
+    function draw() {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, size, size);
+
+        // Background Text
+        ctx.fillStyle = "rgba(0, 255, 204, 0.05)";
+        ctx.textAlign = "center";
+        ctx.font = "bold 35px Arial";
+        ctx.fillText("IBN ABBAS", size/2, size/2);
+
+        // መደበኛ ምግብ (ቀይ)
+        ctx.fillStyle = "#ff0055";
+        ctx.shadowBlur = 10; ctx.shadowColor = "#ff0055";
+        ctx.fillRect(food.x+2, food.y+2, grid-4, grid-4);
+
+        // ልዩ ምግብ (ወርቃማ)
+        if(bonusFood) {
+            ctx.fillStyle = "#ffcc00";
+            ctx.shadowBlur = 15; ctx.shadowColor = "#ffcc00";
+            ctx.beginPath();
+            ctx.arc(bonusFood.x+grid/2, bonusFood.y+grid/2, grid/2-2, 0, Math.PI*2);
+            ctx.fill();
+        }
+
+        // እባብ
+        ctx.shadowBlur = 0;
+        snake.forEach((p, i) => {
+            ctx.fillStyle = (i === 0) ? "#00ffcc" : "#008866";
+            ctx.fillRect(p.x+1, p.y+1, grid-2, grid-2);
         });
-    </script>
+    }
+
+    // መቆጣጠሪያዎች
+    function setDir(d) {
+        if(isPaused) {
+            isPaused = false;
+            document.getElementById("ctrl-pause").innerText = "⏸";
+        }
+        if (d === 'U' && dy === 0) { dx = 0; dy = -grid; }
+        if (d === 'D' && dy === 0) { dx = 0; dy = grid; }
+        if (d === 'L' && dx === 0) { dx = -grid; dy = 0; }
+        if (d === 'R' && dx === 0) { dx = grid; dy = 0; }
+    }
+
+    const map = {'ctrl-up':'U', 'ctrl-down':'D', 'ctrl-left':'L', 'ctrl-right':'R'};
+    Object.keys(map).forEach(id => {
+        const btn = document.getElementById(id);
+        btn.addEventListener('touchstart', (e) => { e.preventDefault(); setDir(map[id]); });
+        btn.addEventListener('mousedown', () => setDir(map[id]));
+    });
+
+    document.getElementById('ctrl-pause').onclick = function() {
+        if(menu.style.display === "none") {
+            isPaused = !isPaused;
+            this.innerText = isPaused ? "▶️" : "⏸";
+        }
+    };
+</script>
 </body>
 </html>
