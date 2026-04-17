@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelil App</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2ecc71">
+</head>
+<body>
+
+    <div id="splash-screen">
+        <img src="icon.png" alt="App Icon" class="splash-logo">
+        <h1 class="splash-text">እንኳን ደህና መጡ</h1>
+    </div>
+
+    <div id="main-content" style="display: none;">
+        <header>
+            <h1>የሐዲስ ማጫወቻ</h1>
+        </header>
+        
+        <main>
+            <div class="audio-card">
+                <img src="icon.png" alt="Cover" class="cover-img">
+                <h3>ቁርአን እና ሐዲስ</h3>
+                <audio id="hadith-audio" controls>
+                    <source src="hadith.mp3" type="audio/mpeg">
+                    የእርስዎ ብሮውዘር ኦዲዮ መጫወት አይችልም።
+                </audio>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Offline support ready!'))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+
+        // Splash screen ቆይቶ እንዲጠፋ የሚያደርግ
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }, 3000); // ለ3 ሰከንድ ይታያል
+    </script>
+</body>
+</html>
 
