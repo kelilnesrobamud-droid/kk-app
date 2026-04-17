@@ -12,8 +12,10 @@
 <body>
 
     <div id="splash-screen">
-        <img src="icon.png" alt="App Icon" class="splash-logo">
-        <h1 class="splash-text">እንኳን ደህና መጡ</h1>
+        <div class="splash-content">
+            <img src="icon.png" alt="App Icon" class="splash-logo">
+            <h1 class="splash-text">እንኳን ደህና መጡ</h1>
+        </div>
     </div>
 
     <div id="main-content" style="display: none;">
@@ -36,20 +38,28 @@
     <script src="script.js"></script>
     
     <script>
+        // 1. Service Worker መመዝገብ
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then(reg => console.log('Offline support ready!'))
-                    .catch(err => console.log('SW registration failed:', err));
+                    .catch(err => console.error('SW registration failed:', err));
             });
         }
 
-        // Splash screen ቆይቶ እንዲጠፋ የሚያደርግ
-        setTimeout(() => {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-        }, 3000); // ለ3 ሰከንድ ይታያል
+        // 2. Splash screen ቆይቶ እንዲጠፋና ዋናው ገጽ እንዲመጣ ማድረግ
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                const main = document.getElementById('main-content');
+                
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    main.style.display = 'block';
+                }, 500);
+            }, 3000); // 3 ሰከንድ ያሳያል
+        });
     </script>
 </body>
 </html>
-
